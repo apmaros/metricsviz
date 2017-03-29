@@ -15,7 +15,80 @@
       "obj" : "java.lang:type=Memory",
       "attr" : [ "HeapMemoryUsage", "NonHeapMemoryUsage" ],
       "resultAlias" : "jvmMemory"
-    } ],
+    }, {
+      "outputWriters" : [
+        {
+          "@class" : "com.googlecode.jmxtrans.model.output.InfluxDbWriterFactory",
+          "url" : "http://influxdb:8086/",
+          "database" : "kafka",
+          "username" : "admin",
+          "password" : "admin"
+        } ],
+      "obj" : "java.lang:type=Threading",
+      "attr" : [ "ThreadCount" ],
+      "resultAlias": "threads"
+    } , {
+      "outputWriters" : [
+        {
+          "@class" : "com.googlecode.jmxtrans.model.output.InfluxDbWriterFactory",
+          "url" : "http://influxdb:8086/",
+          "database" : "kafka",
+          "username" : "admin",
+          "password" : "admin"
+        } ],
+      "obj": "kafka.server:type=ReplicaManager,name=LeaderCount",
+      "attr": [ "Value" ],
+      "resultAlias": "kafka.server.ReplicaManager.LeaderCount"
+    }, {
+      "outputWriters" : [
+        {
+          "@class" : "com.googlecode.jmxtrans.model.output.InfluxDbWriterFactory",
+          "url" : "http://influxdb:8086/",
+          "database" : "kafka",
+          "username" : "admin",
+          "password" : "admin"
+        } ],
+      "obj" : "kafka.server:type=BrokerTopicMetrics,name=MessagesInPerSec,topic=testowo",
+      "attr" : [ "Count" ],
+      "resultAlias": "kafka.log.LogFlushStats.LogFlush"
+    }, {
+      "outputWriters" : [
+        {
+          "@class" : "com.googlecode.jmxtrans.model.output.InfluxDbWriterFactory",
+          "url" : "http://influxdb:8086/",
+          "database" : "kafka",
+          "username" : "admin",
+          "password" : "admin"
+        } ],
+      "obj" : "kafka.controller:type=KafkaController,name=OfflinePartitionsCount",
+      "attr" : ["Value"],
+      "resultAlias": "offlinePartitions"
+    }, {
+      "outputWriters" : [
+        {
+          "@class" : "com.googlecode.jmxtrans.model.output.InfluxDbWriterFactory",
+          "url" : "http://influxdb:8086/",
+          "database" : "kafka",
+          "username" : "admin",
+          "password" : "admin"
+        } ],
+      "obj" : "kafka.server:type=BrokerTopicMetrics,name=MessagesInPerSec",
+      "attr" : ["Count"],
+      "resultAlias": "messagesInPerSec"
+    }, {
+      "outputWriters" : [
+        {
+          "@class" : "com.googlecode.jmxtrans.model.output.InfluxDbWriterFactory",
+          "url" : "http://influxdb:8086/",
+          "database" : "kafka",
+          "username" : "admin",
+          "password" : "admin"
+        } ],
+      "obj" : "kafka.controller:type=KafkaController,name=ActiveControllerCount",
+      "attr" : ["Value"],
+      "resultAlias": "activeControllerCount"
+    }],
+
     "numQueryThreads" : 2
   } ]
 }

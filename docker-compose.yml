@@ -24,6 +24,7 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
       KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://kafka:9092"
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      KAFKA_JMX_HOSTNAME: "localhost"
       JMX_PORT: "5555"
     volumes:
       - /tmp/docker/kafka1/logs:/logs
@@ -31,6 +32,9 @@ services:
 
   jmxtrans:
     image: jmxtrans/jmxtrans
+    environment:
+      CONTINUE_ON_ERROR: "false"
+      SECONDS_BETWEEN_RUNS: 5
     volumes:
       - ./jmxtrans:/var/lib/jmxtrans
 
