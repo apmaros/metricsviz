@@ -1,0 +1,56 @@
+version: "2"
+services:
+  zookeeper:
+    image: confluent/zookeeper:latest
+    restart: always
+    hostname: zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      zk_id: "1"
+
+  kafka:
+    hostname: kafka
+    restart: always
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper
+    restart: always
+    ports:
+      - "9092:9092"
+      - "5555:5555"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
+      KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://kafka:9092"
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      JMX_PORT: "5555"
+    volumes:
+      - /tmp/docker/kafka1/logs:/logs
+      - /tmp/docker/kafka1/data:/data
+
+  jmxtrans:
+    image: jmxtrans/jmxtrans
+    volumes:
+      - ./jmxtrans:/var/lib/jmxtrans
+
+  influxdb:
+    image: influxdb 
+    ports:
+      - "8083:8083"
+      - "8086:8086"
+    volumes:
+      - /tmp/docker/influxdb:/var/lib/influxdb
+    environment:
+      PRE_CREATE_DB: dots 
+
+  grafana:
+    image: grafana/grafana
+    depends_on:
+      - influxdb
+    ports:
+      - "3000:3000"
+    volumes:
+      - /tmp/docker/grafana:/var/lib/grafana
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: "secret"

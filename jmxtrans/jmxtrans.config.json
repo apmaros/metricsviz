@@ -1,0 +1,21 @@
+{
+  "servers" : [ {
+    "port" : "5555",
+    "host" : "kafka",
+    "alias": "kafka-1",
+    "queries" : [ {
+      "outputWriters" : [
+        {
+          "@class" : "com.googlecode.jmxtrans.model.output.InfluxDbWriterFactory",
+          "url" : "http://influxdb:8086/",
+          "database" : "kafka",
+          "username" : "admin",
+          "password" : "admin"
+        } ],
+      "obj" : "java.lang:type=Memory",
+      "attr" : [ "HeapMemoryUsage", "NonHeapMemoryUsage" ],
+      "resultAlias" : "jvmMemory"
+    } ],
+    "numQueryThreads" : 2
+  } ]
+}
